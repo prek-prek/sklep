@@ -67,7 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <div class="wrapper" style="margin-left: auto; margin-right: auto; margin-top: 20px;">
       <img src="logo.png" style="width: 350px; height: 150px; margin-left: -20px; float: left;">
         <h2>Zaloguj</h2>
-        <p>Wypelnij ponizszy formularz aby sie zalogować</p>
+        <p>Zaloguj się do serwisu pikawa.pl</p>
         <?php
         if(!empty($login_err)){
             echo '<div class="alert alert-danger">' . $login_err . '</div>';
@@ -85,7 +85,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span class="invalid-feedback"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Zaloguj">
+                <input type="submit" class="btn btn-danger" value="Zaloguj">
             </div>
             <p>Nie masz konta? <a href="register.php">Zarejestruj się teraz</a>.</p>
         </form>
