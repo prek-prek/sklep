@@ -69,41 +69,39 @@
                                     <div class="row mt-4">
                                         <div class="col"><p class="text-muted mb-2">Twój adres do wysyłki:</p><hr class="mt-0"></div>
                                     </div>
-                                    <form name="details" action="" method="get"><div class="row no-gutters">
+                                    <form name="details" action="" method="post"><div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group">
-                                              <form name="details" action="" method="get">
                                                 <label for="NAME" class="small text-muted mb-1">Imie</label>
-                                                <input type="text" class="form-control form-control-sm" name="imie" id="imie">
-                                              </form>
+                                                <input type="text" class="form-control form-control-sm" name="imie" id="imie" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Nazwisko</label>
-                                                <input type="text" class="form-control form-control-sm" name="nazwisko" id="nazwisko">
+                                                <input type="text" class="form-control form-control-sm" name="nazwisko" id="nazwisko" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="NAME" class="small text-muted mb-1">Numer Telefonu</label>
-                                        <input type="text" class="form-control form-control-sm" name="numer_telefonu" id="numer_telefonu">
+                                        <input type="text" class="form-control form-control-sm" name="numer_telefonu" id="numer_telefonu" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="NAME" class="small text-muted mb-1">Ulica i nr Domu</label>
-                                        <input type="text" class="form-control form-control-sm" name="ulica" id="ulica">
+                                        <input type="text" class="form-control form-control-sm" name="ulica" id="ulica" required>
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Miasto</label>
-                                                <input type="text" class="form-control form-control-sm" name="miasto" id="miasto">
+                                                <input type="text" class="form-control form-control-sm" name="miasto" id="miasto" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Kod pocztowy</label>
-                                                <input type="text" class="form-control form-control-sm" name="kod_pocztowy" id="kod_pocztowy">
+                                                <input type="text" class="form-control form-control-sm" name="kod_pocztowy" id="kod_pocztowy" required>
                                             </div>
                                         </div>
                                     </div></form>
@@ -143,9 +141,7 @@
                                       foreach ($_SESSION['cart'] as $id => $value) {
                                         $arrProductIds[] = $id;
                                       }
-                                      if(isset($_GET["imie"])){
-                                        echo $_GET["imie"];
-                                      }
+                                      print_r($_POST);
                                       $strIds=implode(",", $arrProductIds);
                                       $query="SELECT * FROM products WHERE product_id IN (".$strIds.")";
                                       $orderQuery = "INSERT INTO orders (order_id, customer_id, product_id, quantity) VALUES ";
@@ -199,7 +195,7 @@
                                       echo  '<div class="row ">';
                                       echo      '<div class="col">';
                                       echo          '<div class="row justify-content-between">';
-                                      echo              '<div class="col-4"><p class="mb-1 fs-5"><b>Podsumowanie:</b></p></div>';
+                                      echo              '<div class="col-6"><p class="mb-1 fs-5"><b>Podsumowanie:</b></p></div>';
                                       echo              '<div class="flex-sm-col col-auto"><p class="mb-1 fs-5"><b>'.$subtotal.'zł</b></p></div>';
                                       echo          '</div>';
                                       echo     ' </div>';
