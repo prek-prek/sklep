@@ -73,38 +73,38 @@
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Imie</label>
-                                                <input type="text" class="form-control form-control-sm" name="imie" id="imie" required>
+                                                <input type="text" class="form-control form-control-sm" name="imie" id="imie">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Nazwisko</label>
-                                                <input type="text" class="form-control form-control-sm" name="nazwisko" id="nazwisko" required>
+                                                <input type="text" class="form-control form-control-sm" name="nazwisko" id="nazwisko">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="NAME" class="small text-muted mb-1">Numer Telefonu</label>
-                                        <input type="text" class="form-control form-control-sm" name="numer_telefonu" id="numer_telefonu" required>
+                                        <input type="text" class="form-control form-control-sm" name="numer_telefonu" id="numer_telefonu">
                                     </div>
                                     <div class="form-group">
                                         <label for="NAME" class="small text-muted mb-1">Ulica i nr Domu</label>
-                                        <input type="text" class="form-control form-control-sm" name="ulica" id="ulica" required>
+                                        <input type="text" class="form-control form-control-sm" name="ulica" id="ulica">
                                     </div>
                                     <div class="row no-gutters">
                                         <div class="col-sm-6 pr-sm-2">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Miasto</label>
-                                                <input type="text" class="form-control form-control-sm" name="miasto" id="miasto" required>
+                                                <input type="text" class="form-control form-control-sm" name="miasto" id="miasto">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label for="NAME" class="small text-muted mb-1">Kod pocztowy</label>
-                                                <input type="text" class="form-control form-control-sm" name="kod_pocztowy" id="kod_pocztowy" required>
+                                                <input type="text" class="form-control form-control-sm" name="kod_pocztowy" id="kod_pocztowy">
                                             </div>
                                         </div>
-                                    </div></form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,6 @@
                                     <hr class="my-2">
                                 </div>
                                 <div class="mt-2 card-body pt-0">
-                                  <form method="post">
                                   <?php
                                   require_once 'config.php';
                                   $connection_data = connection_data("root");
@@ -141,7 +140,7 @@
                                       foreach ($_SESSION['cart'] as $id => $value) {
                                         $arrProductIds[] = $id;
                                       }
-                                      print_r($_POST);
+                                      echo $_POST['imie'];
                                       $strIds=implode(",", $arrProductIds);
                                       $query="SELECT * FROM products WHERE product_id IN (".$strIds.")";
                                       $orderQuery = "INSERT INTO orders (order_id, customer_id, product_id, quantity) VALUES ";
