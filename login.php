@@ -65,7 +65,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
     <div class="wrapper" style="margin-left: auto; margin-right: auto; margin-top: 20px;">
-      <img src="logo.png" style="width: 350px; height: 150px; margin-left: -20px; float: left;">
+      <a href="home.php"><img src="logo.png" style="width: 350px; height: 150px; margin-left: -20px; float: left;"></a>
         <h2>Zaloguj</h2>
         <p>Zaloguj się do serwisu pikawa.pl</p>
         <?php

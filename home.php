@@ -59,7 +59,7 @@
       </div>
     </div>
     <div class="row">
-      <p class="text-center bg-danger fs-6 text-white" style="padding-top: 7px; padding-bottom: 7px;">Najwiekszy wybór energoli pod słońcem!! Cerwony pierun, corny sex i łoscypki z koziej ino dupy!</p>
+      <p class="text-center bg-danger fs-6 text-white" style="padding-top: 7px; padding-bottom: 7px;">Najwiekszy wybór energoli pod słońcem!!</p>
     </div>
     <div class="row mx-auto shop">
       <div class="col-3 bg-light kategorie">
@@ -112,7 +112,7 @@
       <div class="col-9 products">
         <div class="row">
           <?php
-          $query="SELECT * FROM products WHERE price > 2";
+          $query="SELECT * FROM products WHERE price > 0";
            extract($_POST);
            if(isset($kategoria)){
                $query.=" AND category_id IN (".implode(',', $kategoria).")";
@@ -126,21 +126,27 @@
             $sql = $connection->query($query);
             while($row = $sql->fetch_assoc()){
               echo '<div class="card col-3">';
-              echo  '<img src="'.$row['image_url'].'" style="padding-bottom: 20px; padding-top: 20px;"/>';
+              echo  '<a href="single_product.php?id='.$row['product_id'].'" style="text-decoration: none" class="row col-12"><img src="'.$row['image_url'].'" style="padding-bottom: 20px; padding-top: 20px;"/>';
               echo  '<div class="data">';
               echo    '<h6 class="d-flex text-secondary">'.$row['brand'].'</h6>';
-              echo    '<div class="d-flex"><h5>'.$row['productname'].'<h6 class="text-secondary" style="margin-left: 5px;">'.$row['capacity'].'</h6></h5></div>';
-              echo    '<h6>'.$row['price'].'zł</h6>';
+              echo    '<div class="d-flex" style="color: black !important;"><h5>'.$row['productname'].'<h6 class="text-secondary" style="margin-left: 5px;">'.$row['capacity'].'</h6></h5></div>';
+              echo    '<h6 style="color: black !important;">'.$row['price'].'zł</h6>';
               echo    '<div class="addToCart mt-3 btn-danger"><a href="cart_update.php?id='.$row['product_id'].'" style="text-decoration: none; color: white;"><img src="koszyk.png" style="margin-right: 10px; width: 15px; height=15px;"/>Dodaj do koszyka</a></div>';
               echo  '</div>';
-              echo '</div>';
+              echo '</div></a>';
             }
           ?>
         </div>
       </div>
     </div>
     <div class="footer row">
-      <div class="col-12 bg-light">
+      <div class="col-12 d-flex justify-content-between align-items-center bg-light">
+        <div class="col-4">
+          <a href="home.php"><img src="logo.png" style="width: 300px; height: 150px; padding-top: 20px; padding-bottom: 20px; float: left;"></a>
+        </div>
+        <div class="col-6">
+          <p class="fs-5 me-3" style="color: black; text-align: right;">Sportowe emocje napędza <b><i>Pikawa.pl!</b></i> Pamiętaj - serce nie sługa </p>
+        </div>
       </div>
     </div>
 </body>
