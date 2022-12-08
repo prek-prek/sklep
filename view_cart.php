@@ -119,7 +119,7 @@
                                 <div class="mt-2 card-body pt-0">
                                   <?php
                                   require_once 'config.php';
-                                  $connection_data = connection_data("m32187_root");
+                                  $connection_data = connection_data("m32187_prek");
                                   $connection = @new mysqli($connection_data[0], $connection_data[1], $connection_data[2], $connection_data[3]);
                                   if($connection->connect_errno!=0){
                                       echo "Błąd! " . $connection->connect_errno;

@@ -1,8 +1,8 @@
 <?php
     function connection_data($username_s){
-        $servername = "localhost";
+        $servername = "mysql.ct8.pl";
         $db_name = "m32187_sklep";
-        $password = "Root1337";
+        $password = "Prek1337";
         $username = $username_s;
 
         $connection_data = array();

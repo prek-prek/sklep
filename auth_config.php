@@ -1,9 +1,9 @@
 <?php
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'm32187_root');
-define('DB_PASSWORD', 'Root1337');
+define('DB_SERVER', 'mysql.ct8.pl');
+define('DB_USERNAME', 'm32187_prek');
+define('DB_PASSWORD', 'Prek1337');
 define('DB_NAME', 'm32187_sklep');
 
 /* Attempt to connect to MySQL database */
