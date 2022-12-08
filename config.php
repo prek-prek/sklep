@@ -1,7 +1,7 @@
 <?php
     function connection_data($username_s){
         $servername = "localhost";
-        $db_name = "sklep";
+        $db_name = "m32187_sklep";
         $password = "";
         $username = $username_s;
 
