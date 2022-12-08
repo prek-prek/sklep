@@ -29,17 +29,17 @@
           if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               header("location: login.php");
               echo '<a class="btn btn-danger logowanie" href="login.php">Zaloguj się</a>';
+          }else{
+            if($_SESSION["is_admin"]==1){
+              echo '<a class="btn btn-danger logowanie" href="admin_panel.php">Panel klienta</a>';
+              echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
             }else{
-              if($_SESSION["is_admin"]==1){
-                echo '<a class="btn btn-danger logowanie" href="admin_panel.php">Panel klienta</a>';
-                echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }else{
-                echo '<a class="btn btn-danger logowanie" href="user_panel.php">Panel klienta</a>';
-                echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }
+              echo '<a class="btn btn-danger logowanie" href="user_panel.php">Panel klienta</a>';
+              echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
             }
+          }
         ?>
         <a href="view_cart.php" style="text-decoration: none; color: black;">
           <div class="d-flex text-center flex-column me-5 fs-5">
@@ -64,28 +64,33 @@
     <div class="row">
       <p class="text-center bg-danger fs-6 text-white" style="padding-top: 7px; padding-bottom: 7px;">Najwiekszy wybór energoli pod słońcem!!</p>
     </div>
-    <div class="shop mt-4 d-flex justify-content-center align-items-center">
-      <div class="col-3">
-        <?php
-        $id=intval($_GET['id']);
-        $query="SELECT * FROM products WHERE product_id = ".$id;
-          $sql = $connection->query($query);
-          $row = $sql->fetch_assoc();
-            echo '<div class="card">';
-            echo  '<img src="'.$row['image_url'].'" style="padding-bottom: 20px; padding-top: 20px;"/>';
-            echo '</div>';
-        ?>
+    <div class="shop mt-4 d-flex justify-content-start flex-column align-items-center" style="min-height: 60vh;">
+      <div class="col-3 mt-4">
+          <h2 style="text-align: center;">Witaj, <?php
+          $id = $_SESSION["id"];
+          $name = $connection->query("SELECT login FROM users WHERE user_id=".$id)->fetch_row();
+          echo $name[0];
+           ?>!</h2>
       </div>
-      <div class="ps-5 col-5">
-        <div class="data">
-        <h4 class="d-flex text-secondary"><?php echo $row['brand']?></h4>
-        <div class="d-flex" style="color: black !important;"><h3><?php echo $row['productname']?></h3></div>
-        </div>
-        <h4 class="mt-3">Opis</h4>
-        <p class="text-secondary"><?php echo $row['description']; ?></p>
-        <h6 class="text-secondary">Pojemność: <?php echo $row['capacity']?></h6>
-        <h4 style="color: black !important;"><?php echo $row['price']?>zł</h4>
-        <div class="row col-4"><div class="addToCart ms-2 mt-4 btn-danger"><a href="cart_update.php?id=<?php echo $row['product_id']?>" style="text-decoration: none; color: white;"><img src="koszyk.png" style="margin-right: 10px; width: 15px; height=15px;"/>Dodaj do koszyka</a></div></div>
+      <div class="col-9 mt-5">
+        <h3 style="margin-bottom: 35px;">Twoje zamówienia: </h3>
+        <?php
+        $query="SELECT products.productname, products.product_id, products.capacity, products.image_url, products.price, orders.quantity FROM products INNER JOIN orders ON products.product_id = orders.product_id WHERE orders.user_id = ".$id;
+        $sql = $connection->query($query);
+        if($result = $connection->query($query)){
+          while ($row = $sql->fetch_assoc()) {
+            echo '<div class="row col-12 d-flex justify-content-between align-items-center mt-4">';
+            echo   '<img class="col-2" src="'.$row['image_url'] .'" style="width: 10%; height: 10%;">';
+            echo   '<div class="col-5"><p class="mb-0"><a href="single_product.php?id='.$row['product_id'].'"><b>'.$row['productname'] .'</b></a></p><small class="text-muted">'.$row['capacity'] .'</small></div>';
+            echo   '<div class="col-1"><p class="mb-0 fs-5">x '.$row['quantity'].'</p></div>';
+            echo   '<div class="col-1"><p class="mb-0 fs-5">'.floatval($row['price'])*floatval($row['quantity']).'zł</p></div>';
+            echo   '<div class="col-2"><p class="mb-0 fs-5"><a download="'.substr($row['image_url'],7).'" href="'.$row['image_url'].'">>Pobierz obraz<</a></p></div>';
+            echo  '</div>';
+          }
+        }else{
+          echo "<p>Brak zamówień</p>";
+        }
+      ?>
       </div>
     </div>
     <div class="footer row">

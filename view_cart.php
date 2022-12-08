@@ -22,13 +22,15 @@
               header("location: login.php");
               echo '<a class="btn btn-danger logowanie" href="login.php">Zaloguj się</a>';
           }else{
-              echo '<a class="btn btn-danger logowanie" href="logout.php">Panel klienta</a>';
+            if($_SESSION["is_admin"]==1){
+              echo '<a class="btn btn-danger logowanie" href="admin_panel.php">Panel klienta</a>';
               echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
-              if($_SESSION["is_admin"]==1){
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }else{
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
+            }else{
+              echo '<a class="btn btn-danger logowanie" href="user_panel.php">Panel klienta</a>';
+              echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
+            }
           }
         ?>
         <a href="view_cart.php" style="text-decoration: none; color: black;">
@@ -140,26 +142,28 @@
                                       foreach ($_SESSION['cart'] as $id => $value) {
                                         $arrProductIds[] = $id;
                                       }
-                                      echo $_POST['imie'];
                                       $strIds=implode(",", $arrProductIds);
                                       $query="SELECT * FROM products WHERE product_id IN (".$strIds.")";
-                                      $orderQuery = "INSERT INTO orders (order_id, customer_id, product_id, quantity) VALUES ";
+                                      $orderQuery = "INSERT INTO orders (order_id, user_id, product_id, quantity) VALUES ";
                                       $lastOrderID = $connection->query("SELECT order_id FROM orders ORDER BY order_id DESC LIMIT 1")->fetch_row();
                                       $sql = $connection->query($query);
                                       $customer_id = $_SESSION["id"];
                                       $lastOrderID[0] = $lastOrderID[0] + 1;
+                                      $addCustomer = "INSERT INTO customers (user_id,imie,nazwisko,numer_telefonu,ulica_dom,miasto,kod_pocztowy,order_id)
+                                      VALUES (".$_SESSION["id"].",'".$_POST['imie']."','".$_POST['nazwisko']."','".$_POST['numer_telefonu']."','".$_POST['ulica']."','".$_POST['miasto']."','".$_POST['kod_pocztowy']."',".$lastOrderID[0].");";
+                                      $connection->query($addCustomer);
                                       if($result = $connection->query($query)){
                                         while ($row = $sql->fetch_assoc()) {
                                           $orderQuery2 = $orderQuery.'('.$lastOrderID[0].','.$customer_id.','.$row['product_id'].','.$_SESSION['cart'][$row['product_id']]['quantity'].');';
                                           $connection->multi_query($orderQuery2);
                                         }
                                       }
-                                      /*unset($_SESSION['cart']);
+                                      unset($_SESSION['cart']);
                                       ?>
                                       <script type="text/javascript">
                                       window.location.href = 'order.php';
                                       </script>
-                                      <?php*/
+                                      <?php
                                   }
 
                                   if(isset($_SESSION['cart'])){

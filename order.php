@@ -30,13 +30,15 @@
               header("location: login.php");
               echo '<a class="btn btn-danger logowanie" href="login.php">Zaloguj się</a>';
           }else{
-              echo '<a class="btn btn-danger logowanie" href="logout.php">Panel klienta</a>';
+            if($_SESSION["is_admin"]==1){
+              echo '<a class="btn btn-danger logowanie" href="admin_panel.php">Panel klienta</a>';
               echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
-              if($_SESSION["is_admin"]==1){
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }else{
-                echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
-              }
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
+            }else{
+              echo '<a class="btn btn-danger logowanie" href="user_panel.php">Panel klienta</a>';
+              echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
+              echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
+            }
           }
         ?>
         <a href="view_cart.php" style="text-decoration: none; color: black;">
@@ -64,7 +66,7 @@
     </div>
     <div class="shop mt-4 d-flex justify-content-center align-items-center">
       <div class="col-3 mt-4" style="height: 50vh;">
-          <h2 style="text-align: center;">Dziękujemy za złożenie zamówienia!</h2>;
+          <h2 style="text-align: center;">Dziękujemy za złożenie zamówienia!</h2>
       </div>
     </div>
     <div class="footer row">

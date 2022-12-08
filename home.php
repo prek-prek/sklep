@@ -29,11 +29,13 @@
           if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
               echo '<a class="btn btn-danger logowanie" href="login.php">Zaloguj się</a>';
           }else{
-              echo '<a class="btn btn-danger logowanie" href="logout.php">Panel klienta</a>';
-              echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
               if($_SESSION["is_admin"]==1){
+                echo '<a class="btn btn-danger logowanie" href="admin_panel.php">Panel klienta</a>';
+                echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
                 echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5" style="color:red;"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
               }else{
+                echo '<a class="btn btn-danger logowanie" href="user_panel.php">Panel klienta</a>';
+                echo '<a class="btn btn-danger logowanie" href="logout.php">Wyloguj się</a>';
                 echo '<div class="UserIcon d-flex text-center flex-column me-5 fs-5"><img src="user.png" style="margin-left: auto; margin-right: auto; margin-bottom: 5px; width: 30px; height: 30px;"/>'.$_SESSION["username"].'</div>';
               }
           }
