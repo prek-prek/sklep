@@ -2,7 +2,7 @@
     function connection_data($username_s){
         $servername = "localhost";
         $db_name = "m32187_sklep";
-        $password = "";
+        $password = "Root1337";
         $username = $username_s;
 
         $connection_data = array();
