@@ -64,9 +64,67 @@
     <div class="row">
       <p class="text-center bg-danger fs-6 text-white" style="padding-top: 7px; padding-bottom: 7px;">Najwiekszy wybór energoli pod słońcem!!</p>
     </div>
-    <div class="shop mt-4 d-flex justify-content-center align-items-center">
-      <div class="col-3 mt-4" style="height: 50vh;">
-          <h2 style="text-align: center;">Witaj, !<?php ?></h2>
+    <div class="shop mt-4 d-flex justify-content-start flex-column align-items-center" style="min-height: 60vh;">
+      <div class="col-3 mt-4">
+          <h2 style="text-align: center;">Witaj, <?php
+          $id = $_SESSION["id"];
+          $name = $connection->query("SELECT login FROM users WHERE user_id=".$id)->fetch_row();
+          echo $name[0];
+           ?>!</h2>
+      </div>
+      <div class="col-9 mt-5">
+        <h3 style="margin-bottom: 35px;">Wszystkie zamówienia: </h3>
+        <?php
+        $query="SELECT products.productname, products.product_id, products.capacity, products.image_url, products.price, orders.quantity FROM products INNER JOIN orders ON products.product_id = orders.product_id";
+        $sql = $connection->query($query);
+        if($result = $connection->query($query)){
+          while ($row = $sql->fetch_assoc()) {
+            echo '<div class="row col-12 d-flex justify-content-between align-items-center mt-4">';
+            echo   '<img class="col-2" src="'.$row['image_url'] .'" style="width: 10%; height: 10%;">';
+            echo   '<div class="col-5"><p class="mb-0"><b>Produkt:<br></b> <a href="single_product.php?id='.$row['product_id'].'"><b>'.$row['productname'] .'</b></a></p><small class="text-muted">'.$row['capacity'] .'</small></div>';
+            echo   '<div class="col-1"><p class="mb-0 fs-5"><b class="fs-6">Ilośc:<br></b> x '.$row['quantity'].'</p></div>';
+            echo   '<div class="col-1"><p class="mb-0 fs-5"><b class="fs-6">Suma:<br></b> '.floatval($row['price'])*floatval($row['quantity']).'zł</p></div>';
+            echo   '<div class="col-2"><p class="mb-0 fs-5"><a href="#">Edytuj zamówienie</a></p></div>';
+            echo  '</div>';
+          }
+        }else{
+          echo "<p>Brak zamówień</p>";
+        }
+      ?>
+      <h3 style="margin-bottom: 35px; margin-top: 100px;">Wszyscy uzytkownicy: </h3>
+      <?php
+      $query="SELECT * FROM users";
+      $sql = $connection->query($query);
+      if($result = $connection->query($query)){
+        while ($row = $sql->fetch_assoc()) {
+          echo '<div class="row text-center col-12 d-flex justify-content-between align-items-center mt-5">';
+          echo   '<div class="col-2 d-flex justify-content-center"><img src="https://www.glamour.pl/media/cache/gallery_small/uploads/media/default/0005/72/fda9c7c32c7ed88d9a70538a42808c734df98cae.jpg" style="width: 50%; height: 50%;"><p class="mb-0">Id: '.$row['user_id'].'</p></div>';
+          echo   '<div class="col-2 text-start"><p class="mb-0 fs-5"><b  class="fs-6">Login:<br></b> '.$row['login'].'</p></div>';
+          echo   '<div class="col-2 text-start"><p class="mb-0 fs-5"><b  class="fs-6">Hasło:<br></b>  '.$row['haslo'].'</p></div>';
+          echo   '<div class="col-3 text-start"><p class="mb-0 fs-5"><b  class="fs-6">Email:<br></b>  '.$row['email'].'</p></div>';
+          echo   '<div class="col-1"><p class="mb-0 fs-5"><b  class="fs-6">Admin:<br></b>  '.$row['is_admin'].'</p></div>';
+          echo   '<div class="col-2 text-end"><p class="mb-0 fs-5"><a href="#">Edytuj uzytkownika</a></p></div>';
+          echo  '</div>';
+        }
+      }?>
+      <h3 style="margin-bottom: 35px; margin-top: 100px;">Wszystkie produkty: </h3>
+      <?php
+      $query="SELECT products.product_id, products.brand, products.image_url, products.productname, products.stock, products.price, category.category_name FROM products,category WHERE products.category_id = category.category_id";
+      $sql = $connection->query($query);
+      if($result = $connection->query($query)){
+        while ($row = $sql->fetch_assoc()) {
+          echo '<div class="row text-center col-12 d-flex justify-content-between align-items-center mt-5">';
+          echo   '<div class="col-2 d-flex justify-content-center"><img class="col-2" src="'.$row['image_url'] .'" style="width: 50%; height: 50%;"><p class="mb-0" style="text-decoration: underline;">Id: '.$row['product_id'].'</p></div>';
+          echo   '<div class="col-1 text-start"><p class="mb-0 fs-5"><b class="fs-6">Marka:<br></b> '.$row['brand'].'</p></div>';
+          echo   '<div class="col-4 text-start"><p class="mb-0 fs-5"><b class="fs-6">Nazwa:<br></b> '.$row['productname'].'</p></div>';
+          echo   '<div class="col-1 text-start"><p class="mb-0 fs-5"><b class="fs-6">Stan:<br></b> '.$row['stock'].'</p></div>';
+          echo   '<div class="col-1 text-start"><p class="mb-0 fs-5"><b class="fs-6">Cena:<br></b> '.$row['price'].'zł</p></div>';
+          echo   '<div class="col-1 text-start"><p class="mb-0 fs-5"><b class="fs-6">Kategoria:<br></b> '.$row['category_name'].'</p></div>';
+          echo   '<div class="col-2 text-end"><p class="mb-0 fs-5"><a href="#">Edytuj produkt</a></p></div>';
+          echo  '</div>';
+        }
+      }
+    ?>
       </div>
     </div>
     <div class="footer row">
